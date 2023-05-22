@@ -1,0 +1,49 @@
+.template-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 20px;
+  }
+  
+  .template-image {
+    position: relative;
+  }
+  
+  .template-image img {
+    width: 100%;
+    height: auto;
+  }
+  
+  .template-image:before {
+    content: "";
+    display: block;
+    padding-top: 100%;
+    background-color: #f8d5b5;
+    border: 5px solid #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+  
+  .template-image:hover:before {
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  .template-image button {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #222;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .template-image button:hover {
+    background-color: #f8d5b5;
+    color: #fff;
+  }
+  

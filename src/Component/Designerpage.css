@@ -1,0 +1,61 @@
+.admin-container {
+  background-color: #d0d4f8;
+  border-radius: 40px;
+  box-shadow: 0px 2px 10px rgb(65, 93, 184);
+  margin: 20px auto;
+  max-width: 800px;
+  padding: 20px;
+}
+
+.admin-container h2 {
+  color: #333;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+table th,
+table td {
+  border: 2px solid #fffcfc;
+  padding: 12px;
+  text-align: left;
+}
+
+table th {
+  background-color: #706e6e;
+  font-weight: 600;
+}
+
+table tr:hover {
+  background-color: #a6c1e4;
+}
+
+.adminbutton {
+  background-color: #4caf50;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  margin-right: 10px;
+  transition: background-color 0.3s;
+}
+
+.adminbutton:hover {
+  background-color: #3e8e41;
+}
+
+.adminbutton-cancel {
+  background-color: #f44336;
+}
+
+.adminbutton-cancel:hover {
+  background-color: #c62828;
+}

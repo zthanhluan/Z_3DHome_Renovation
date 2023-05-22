@@ -1,0 +1,207 @@
+
+.container7{
+    background-color:  #5f394e;
+    margin-top: 900px;
+    overflow: hidden;
+    position: fixed;;
+    flex-direction: bottom;
+}
+
+.footer-box-help {
+    /* border: 1px solid #ccc; */
+    padding: 20px;
+    width: 600px;
+    margin-left: 6rem;
+    font-size: large;
+
+
+  }
+  .footer-box-about {
+    /* border: 1px solid #ccc; */
+    padding: 20px;
+    width: 600px;
+    margin-left: 5rem;
+    font-size: large; 
+    color:  rgb(209, 202, 202);
+
+  }
+  .footer-box-follow {
+    /* border: 1px solid #ccc; */
+    padding: 20px;
+    width: 600px;
+    margin-left: 7rem;
+    font-size: large;
+    
+
+
+  }
+  
+  
+  .footer-box-follow h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: aliceblue;
+    font-weight: bold;
+
+  }
+  .footer-box-about h3 {
+    color: aliceblue;
+
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+
+  }
+
+  .footer-box-help h3 {
+    color: aliceblue;
+
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  .footer-links li {
+    list-style: none;
+    margin-bottom: 10px;
+  }
+  
+  .footer-links a {
+    color: rgb(209, 202, 202);
+    text-decoration: none;
+  }
+  
+  .footer-links a:hover {
+    color: #1DA1F2;
+  }
+  
+  .social-icons a {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  .icon-color-instagram{
+    color: rgb(238, 84, 97);
+  
+  }
+  .icon-color-facebook{
+    color: blue;
+  }
+
+  .icon-color-youtube{
+    color: red;
+  }
+  .icon-color-linkedin
+  {
+    border-radius: 50%;
+    background-color:blue;
+    border-radius: 10%;
+    width: 30px;
+    height: 25px;
+    color: rgb(254, 254, 255);
+    border-color: aliceblue;
+  }
+  .feedback-icons {
+    margin-top: 20px;
+  }
+  
+  .feedback-icons a {
+    display: inline-block;
+    color: #ddd0d0;
+    text-decoration: none;
+    margin-top: 10px;
+  }
+  
+  .feedback-icons a:hover {
+    color: #1DA1F2;
+  }
+  
+  .icon-color:hover {
+    color: #1DA1F2;
+  }
+
+  .footer-section {
+    border: 2px solid #ccc;
+    padding: 20px;
+  }
+  
+  .help-contact {
+    margin-bottom: 30px;
+  }
+  .cookie-banner {
+    background-color: #eee;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .cookie-banner button {
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 10px;
+    margin-left: 10px;
+  }
+  
+  .footerCookies
+  {
+    margin-top: -3rem;
+  }
+  .copy-right {
+    color: #ccc;
+    font-size: 14px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  .col-md-6 p{
+    color: #c4c0c0;
+    font-weight: lighter;
+  }
+/* Cookies section */
+.footer-cookies {
+  background-color: #2316da;
+  color: #fff;
+  padding: 7px;
+  
+}
+
+.footer-cookies h4 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.footer-cookies p {
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.footer-cookies a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer-cookies a:hover {
+  text-decoration: underline;
+}
+
+.footer-cookies .btn {
+  background-color: #fff;
+  color: #1a1a1a;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.footer-cookies .btn:hover {
+  background-color: #f2f2f2;
+}
+  

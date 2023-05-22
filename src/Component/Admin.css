@@ -1,0 +1,101 @@
+/* Styling for the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 16px;
+  margin: 20px 0;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+thead {
+  background-color: #555;
+  color: #fff;
+}
+.adminportal{
+  background-color: rgb(207, 210, 235);
+  box-shadow: 0px 5px 9px rgb(41, 41, 194);
+  border-radius: 40px;
+}
+th,
+td {
+  text-align: left;
+  padding: 12px;
+  border: none;
+}
+
+th {
+  border-bottom: 2px solid #fff;
+}
+
+/* Styling for the buttons */
+.adminbutton1 {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background-color: #555;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
+  margin-right: 10px;
+}
+
+.adminbutton1:hover {
+  background-color: #fff;
+  color: #555;
+  border: 1px solid #555;
+}
+
+.adminbutton1-save {
+  background-color: #28a745;
+  border: none;
+}
+
+.adminbutton1-save:hover {
+  background-color: #fff;
+  color: #28a745;
+  border: 1px solid #28a745;
+}
+
+.adminbutton1-cancel {
+  background-color: #dc3545;
+  border: none;
+}
+
+.adminbutton1-cancel:hover {
+  background-color: #fff;
+  color: #dc3545;
+  border: 1px solid #dc3545;
+}
+
+/* Styling for the form inputs and labels */
+.formlabel {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #555;
+}
+
+.forminput {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #555;
+}
+
+/* Styling for the table row hover effect */
+tr:hover {
+  background-color: hsl(221, 85%, 87%);
+  cursor: pointer;
+}
+
+/* Styling for the admin portal */
+.adminportal {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}

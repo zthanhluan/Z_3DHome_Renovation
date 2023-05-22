@@ -1,0 +1,85 @@
+/* help.css */
+
+.help-page {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px;
+    font-family: Arial, sans-serif;
+    background-color: #f5f7ff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .help-title {
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+  .help-description {
+    font-size: 18px;
+    margin-bottom: 40px;
+    color: #666;
+    text-align: center;
+  }
+  
+  .help-section-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  
+  .help-section-description {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  .help-steps {
+    margin-bottom: 40px;
+    list-style-type: decimal;
+    padding-left: 20px;
+    color: #666;
+  }
+  
+  .help-steps li {
+    margin-bottom: 10px;
+  }
+  
+  .help-steps li::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #007bff;
+    margin-right: 10px;
+  }
+  
+  .help-steps li span {
+    color: #333;
+    transition: color 0.3s ease;
+  }
+  
+  .help-steps li:hover span {
+    color: #007bff;
+  }
+  
+  .help-section {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-bottom: 40px;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .help-section:hover {
+    box-shadow: 0px 6px 12px black;
+  }
+  
+  /* Additional styles as needed */
+  

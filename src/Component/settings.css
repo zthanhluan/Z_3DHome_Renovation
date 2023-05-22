@@ -1,0 +1,133 @@
+.settings-page {
+  background-color: #d2d2df;
+  border-radius: 30px;
+  box-shadow: 0px 2px 5px blue;
+  padding: 15px;
+  width: 500px;
+  height: fit-content;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 10px;
+
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: -30px;
+}
+
+.settings-header h1 {
+  display: flex;
+  align-items: center;
+  font-size: 32px;
+  font-weight: bold;
+  
+  color: #3d3d3d;
+}
+
+.settings-header svg {
+  margin-right: 10px;
+}
+
+.settings-section-language {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.settings-section-name {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.settings-section-pass {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.settings-icon-lang {
+  background-color: #fff3f3;
+  border-radius: 50%;
+  height: 50px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 28px;
+  box-shadow: 0px 4px 8px black;
+  transition: all 0.2s ease-in-out;
+}
+.settings-icon-name {
+  background-color: #fff3f3;
+  border-radius: 50%;
+  height: 50px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 28px;
+  box-shadow: 0px 4px 8px black;
+  transition: all 0.2s ease-in-out;
+}
+.settings-icon-pass{
+  background-color: #fff3f3;
+  border-radius: 50%;
+  height: 50px;
+  width: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 25px;
+  box-shadow: 0px 4px 8px black;
+  transition: all 0.2s ease-in-out;
+  margin-bottom: 17rem;
+}
+.settings-icon-lang svg {
+  font-size: 24px;
+  color: #3d3d3d;
+}
+.settings-icon-name svg {
+  font-size: 24px;
+  color: #3d3d3d;
+}
+.settings-icon-pass svg {
+  font-size: 24px;
+  color: #3d3d3d;
+}
+.settings-section-language:hover {
+  box-shadow: 0px 4px 10px black;
+  transform: translateY(-5px);
+  transition: all 0.2s ease-in-out;
+}
+.settings-section-name:hover {
+  box-shadow: 0px 4px 10px black;
+  transform: translateY(-5px);
+  transition: all 0.2s ease-in-out;
+}
+
+.settings-section-pass:hover {
+  box-shadow: 0px 4px 10px black;
+  transform: translateY(-5px);
+  transition: all 0.2s ease-in-out;
+}
+
+.settings-section-language:hover .settings-icon-lang svg {
+  color: #ffffff;
+}
+.settings-section-name:hover .settings-icon-name svg {
+  color: #ffffff;
+}
+.settings-section-pass:hover .settings-icon-pass svg {
+  color: #ffffff;
+}
+
+.settings-section-language:hover .settings-icon-lang {
+  background-color: #69adf0;
+}
+.settings-section-name:hover .settings-icon-name {
+  background-color: #69adf0;
+}
+.settings-section-pass:hover .settings-icon-pass {
+  background-color: #69adf0;
+}
