@@ -1,8 +1,8 @@
-import React, {UseState} from 'react';
+import React, {useState} from 'react';
 import app from './firebase';
-function fetch()
+function Fetch()
 {
-    const[allDocs, setalldocs]= UseState([])
+    const[allDocs, setalldocs]= useState([])
     const db = app.firestore();
 
     function fetchAll(e){
@@ -33,4 +33,4 @@ return(
     </div>
 )
 }
-export default fetch;
+export default Fetch;

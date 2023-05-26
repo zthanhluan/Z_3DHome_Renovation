@@ -22,7 +22,7 @@ import Parameter from './Component/Parameter';
 import Feedback from './Component/Feedback';
 import Payment from './Component/Payment';
 import Thankyou from './Component/Thankyou';
-import fetch from './Component/fetch';
+import Fetch from './Component/Fetch';
 import Faq from './Component/Faq';
 // import Dashboard from './Component/Dashboard';
 import Admin from './Component/Admin';
@@ -66,7 +66,7 @@ const App = () => {
         <Route path="/parameter"  Component={Parameter}/>
         <Route path="/feedback"  Component={Feedback}/>
         <Route path="/payment"  Component={Payment}/>
-        <Route path="/fetch"  Component={fetch}/>
+        <Route path="/fetch"  Component={Fetch}/>
         {/* <Route path="/dashboard"  Component={Dashboard}/> */}
         <Route path="/admin"  Component={Admin}/>
         <Route path="/settings"  Component={settings}/>

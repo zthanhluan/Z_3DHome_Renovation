@@ -149,10 +149,10 @@ const Navbar = () => {
             </li>
 
             <li className="nav-item">
-              <NavLink className="nav-link" to="/pricing" >
+              <NavLink className="nav-link" to="/CustomDesign" >
                 <i 
                 className="far fa-clone">
-                </i>Pricing
+                </i>CustomDesign
               </NavLink>
             </li>
 
