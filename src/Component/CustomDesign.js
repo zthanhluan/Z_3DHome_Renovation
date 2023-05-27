@@ -43,13 +43,23 @@ function CustomDesign() {
   let stats;
   let addObjects = [];
 
+  let allFurniture = {};
+
   let pmremGenerator;
   let neutralEnvironment;
+
+  // Create a clock
+  const clock = new THREE.Clock();
+  clock.start();
+
+  let callOnce = true;
 
   let state = {
     bgColor: 0xcccccc,
   }
   let backgroundColor = new THREE.Color(state.bgColor);
+
+  const highlightedMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 });
 
   var setContent = (object) => {
 
@@ -91,1072 +101,611 @@ function CustomDesign() {
     });
   }
 
+  const doorItems = [
+    {
+      name: "Double Side Steel Door",
+      clickHandler: loadDoor.bind(null, 'Models/door/1.gltf', 0.2, 0.2, 0.3)
+    },
+    {
+      name: "Double Side Glass Door",
+      clickHandler: loadDoor.bind(null, 'Models/door/2.gltf', 0.2, 0.2, 0.3)
+    },
+    {
+      name: "Double Side Wood Door",
+      clickHandler: loadDoor.bind(null, 'Models/door/3.gltf', 0.2, 0.2, 0.3)
+    },
+    {
+      name: "Painted Wood Door",
+      clickHandler: loadDoor.bind(null, 'Models/door/4.gltf', 0.4, 0.2, 0.3)
+    },
+    {
+      name: "Wood Door",
+      clickHandler: loadDoor.bind(null, 'Models/door/5.gltf', 0.4, 0.2, 0.3)
+    }
+  ];
+
+  const windowItems = [
+    {
+      name: "Woodpaper Window",
+      clickHandler: loadWindow.bind(null, 'Models/window/1/Project Name.gltf', 4, 4, 5, 0.1)
+    },
+    {
+      name: "Woodpaper Grey Window",
+      clickHandler: loadWindow.bind(null, 'Models/window/2/Project Name.gltf', 4, 4, 5, 0.1)
+    },
+    {
+      name: "Updown Window",
+      clickHandler: loadWindow.bind(null, 'Models/window/3/Project Name/Project Name.gltf', 0.2, 0.2, 0.2, -0.1)
+    },
+    {
+      name: "Black Glass Window",
+      clickHandler: loadWindow.bind(null, 'Models/window/4/Project Name.gltf', 44, 44, 50, 0.1)
+    },
+    {
+      name: "Brown Glass Window",
+      clickHandler: loadWindow.bind(null, 'Models/window/5/Project Name/Project Name.gltf', 44, 44, 50, 0.1)
+    }
+  ];
+
+  const chairItems = [
+    {
+      name: "Blue Cushion Chair",
+      clickHandler: loadChair.bind(null, 'Models/Chairs/Project chair1.gltf.glb', 50, 50, 50)
+    },
+    {
+      name: "Black Cushion Chair",
+      clickHandler: loadChair.bind(null, 'Models/Chairs/Project chair2.gltf.glb', 50, 50, 50)
+    },
+    {
+      name: "Sofa Inherited Chair",
+      clickHandler: loadChair.bind(null, 'Models/Chairs/Project chair 3.gltf.glb', 5, 5, 5)
+    },
+    {
+      name: "Relaxing Wood Chair",
+      clickHandler: loadChair.bind(null, 'Models/Chairs/Project chair 4/Project Name.gltf', 50, 40, 50)
+    },
+    {
+      name: "Couple Chairs",
+      clickHandler: loadChair.bind(null, 'Models/Chairs/Project chair_5/Project Name.gltf', 500, 500, 500)
+    }
+  ];
+
+  const tableItems = [
+    {
+      name: "Dark Brown Wood Table",
+      clickHandler: loadTable.bind(null, 'Models/table/table 1/Project Name.gltf', 8, 8, 6)
+    },
+    {
+      name: "Painted Table",
+      clickHandler: loadTable.bind(null, 'Models/table/table 2/Project Name.gltf', 0.1, 0.1, 0.1)
+    },
+    {
+      name: "Blue Plan Table",
+      clickHandler: loadTable.bind(null, 'Models/table/table 3/Project Name.gltf', 28, 28, 28)
+    },
+    {
+      name: "Dark Blue Plan Table",
+      clickHandler: loadTable.bind(null, 'Models/table/table 4/Project Name.gltf', 28, 28, 28)
+    },
+    {
+      name: "Glass Plan Table",
+      clickHandler: loadTable.bind(null, 'Models/table/table 5/Project Name.gltf', 28, 28, 28)
+    }
+  ];
+
+  const dinningTableItems = [
+    {
+      name: "Blue Dinning Table With Light",
+      clickHandler: loadDinningTable.bind(null, 'Models/dinning table/1/Project Name.gltf', 3.5, 3.5, 3.5)
+    },
+    {
+      name: "4 Person Dinning Table",
+      clickHandler: loadDinningTable.bind(null, 'Models/dinning table/2/Project Name.gltf', 22, 22, 22)
+    },
+    {
+      name: "Dark Blue 4 Person Dinning Table",
+      clickHandler: loadDinningTable.bind(null, 'Models/dinning table/3/Project Name.gltf', 22, 22, 22)
+    },
+    {
+      name: "Adjustible Dinning Table",
+      clickHandler: () => {
+        // Không có hàm tải nào được thực hiện ở đây
+      }
+    },
+    {
+      name: "4 Person Plan Dinning Table",
+      clickHandler: loadDinningTable.bind(null, 'Models/dinning table/5/Project Name.gltf', 3.5, 3.5, 3.5)
+    }
+  ];
+
+  const cupboardItems = [
+    {
+      name: "Green Shaded Cupboard",
+      clickHandler: loadCupboard.bind(null, 'Models/cupboard/1/Project Name/Project Name.gltf', 25, 25, 25)
+    },
+    {
+      name: "Green Shaded Plan Cupboard",
+      clickHandler: loadCupboard.bind(null, 'Models/cupboard/2/Project Name.gltf', 900, 900, 900)
+    },
+    {
+      name: "Parrot Shaded Cupboard",
+      clickHandler: loadCupboard.bind(null, 'Models/cupboard/3/Project Name/Project Name.gltf', 30, 30, 30)
+    },
+    {
+      name: "Black Shaded Cupboard",
+      clickHandler: loadCupboard.bind(null, 'Models/cupboard/4/Project Name (1)/Project Name.gltf', 30, 30, 30)
+    },
+    {
+      name: "Dark Blue Shaded Cupboard",
+      clickHandler: loadCupboard.bind(null, 'Models/cupboard/5/Project Name/Project Name.gltf', 30, 30, 30)
+    }
+  ];
+  const bedItems = [
+    {
+      name: "Couple Small Bed",
+      clickHandler: loadBed.bind(null, 'Models/bed/1/Project Name/Project Name.gltf', 900, 900, 900)
+    },
+    {
+      name: "Couple Comfort Bed",
+      clickHandler: loadBed.bind(null, 'Models/bed/2/Project Name.gltf', 900, 900, 900)
+    },
+    {
+      name: "Small Wided Bed",
+      clickHandler: loadBed.bind(null, 'Models/bed/3/Project Name.gltf', 900, 900, 900)
+    },
+    {
+      name: "Brown Long Bed",
+      clickHandler: loadBed.bind(null, 'Models/bed/4/Project Name.gltf', 900, 900, 900)
+    },
+    {
+      name: "Long White Bed",
+      clickHandler: loadBed.bind(null, 'Models/bed/5/Project Name/Project Name.gltf', 700 * 5, 700 * 5, 650 * 5)
+    }
+  ];
+
+  const floorItems = [
+    {
+      name: "Sky Blue Floor",
+      clickHandler: loadFloor.bind(null, 'Models/floor/1/Project Name/Project Name.gltf', 0x9EDED8)
+    },
+    {
+      name: "Black Sheet Patern Floor",
+      clickHandler: loadFloor.bind(null, 'Models/floor/2/Project Name/Project Name.gltf', 0x9EDED8)
+    },
+    {
+      name: "Brown Tiled Floor",
+      clickHandler: loadFloor.bind(null, 'Models/floor/3/Project Name/Project Name.gltf', 0x9EDED8)
+    },
+    {
+      name: "Plan Floor",
+      clickHandler: loadFloor.bind(null, 'Models/floor/4/Project Name/Project Name.gltf', 0x9EDED8)
+    },
+    {
+      name: "Blue Wood Patern Floor",
+      clickHandler: loadFloor.bind(null, 'Models/floor/5/Project Name.gltf', 0x9EDED8)
+    }
+  ];
+
+  const roofItems = [
+    {
+      name: "Plan Pattern Roof",
+      clickHandler: loadRoof.bind(null, 'Models/roof1/Project Name/Project Name.gltf', 0x6d998f)
+    }
+  ];
+
+  function loadDoor(url, scaleX, scaleY, scaleZ) {
+    const tablekey = `${url}`;
+    if (allFurniture[tablekey]) {
+      clock.start();
+      // Calculate the elapsed time
+      const elapsedTime = clock.getElapsedTime();
+      const temp = allFurniture[tablekey].clone();
+      otherObjects = false;
+      doorandwindows = temp;
+      obj.add(temp);
+      setContent(temp);
+      // Print the loading time to the console
+      console.log(`GLTF object loaded clone in ${elapsedTime.toFixed(2)} seconds.`);
+    } else {
+      clock.start();
+      //Console.log("Loading Item under Door");
+      loader.load(url, function (gltf) {
+        // Calculate the elapsed time
+        const elapsedTime = clock.getElapsedTime();
+        const windowMesh = gltf.scene;
+        //Console.log("windowmesh:" + windowMesh);
+        windowMesh.scale.set(scaleX, scaleY, scaleZ);
+        windowMesh.position.set(0, 0, 0.1);
+        const window2 = windowMesh.clone();
+        window2.position.z = -0.1;
+        const group = new THREE.Group();
+        group.add(windowMesh);
+        group.add(window2);
+        doorandwindows = group;
+        otherObjects = false;
+        obj.add(group);
+        setContent(doorandwindows);
+        allFurniture[tablekey] = doorandwindows.clone();
+
+        // Print the loading time to the console
+        console.log(`GLTF object loaded in ${elapsedTime.toFixed(2)} seconds.`);
+      });
+    }
+  }
+
+  function loadWindow(url, scaleX, scaleY, scaleZ, positionY) {
+    const tablekey = `${url}`;
+    if (allFurniture[tablekey]) {
+      clock.start();
+      // Calculate the elapsed time
+      const elapsedTime = clock.getElapsedTime();
+      const temp = allFurniture[tablekey].clone();
+      otherObjects = false;
+      doorandwindows = temp;
+      obj.add(temp);
+      setContent(temp);
+      // Print the loading time to the console
+      console.log(`GLTF object loaded clone in ${elapsedTime.toFixed(2)} seconds.`);
+    } else {
+      clock.start();
+      //Console.log("Loading Item under window");
+      loader.load(url, function (gltf) {
+        // Calculate the elapsed time
+        const elapsedTime = clock.getElapsedTime();
+        const windowMesh = gltf.scene;
+        //Console.log("windowmesh:" + windowMesh);
+        windowMesh.scale.set(scaleX, scaleY, scaleZ);
+        windowMesh.position.set(0, positionY, 0.1);
+        const window2 = windowMesh.clone();
+        window2.position.z = -0.1;
+        const group = new THREE.Group();
+        group.add(windowMesh);
+        group.add(window2);
+        doorandwindows = group;
+        otherObjects = false;
+        obj.add(group);
+        setContent(doorandwindows);
+        allFurniture[tablekey] = doorandwindows.clone();
+
+        // Print the loading time to the console
+        console.log(`GLTF object loaded in ${elapsedTime.toFixed(2)} seconds.`);
+      });
+    }
+  }
+
+  function loadChair(url, scaleX, scaleY, scaleZ) {
+    const tablekey = `${url}`;
+    if (allFurniture[tablekey]) {
+      clock.start();
+      // Calculate the elapsed time
+      const elapsedTime = clock.getElapsedTime();
+      const temp = allFurniture[tablekey].clone();
+      movingObject = temp;
+      otherObjects = true;
+      scene.add(temp);
+      setContent(temp);
+      // Print the loading time to the console
+      console.log(`GLTF object loaded clone in ${elapsedTime.toFixed(2)} seconds.`);
+    } else {
+      clock.start();
+      //Console.log("Loading Item under Chair");
+      loader.load(url, function (gltf) {
+        // Calculate the elapsed time
+        const elapsedTime = clock.getElapsedTime();
+        //Console.log(gltf);
+        var chair = gltf.scene;
+        chair.traverse(function (child) {
+          child.userData.selectable = true;
+          child.layers.set(0);
+        });
+        chair.scale.set(scaleX, scaleY, scaleZ);
+        chair.position.z += 10;
+        chair.rotateY(-Math.PI / 2);
+        movingObject = chair;
+        otherObjects = true;
+        scene.add(chair);
+        setContent(chair);
+        allFurniture[tablekey] = chair.clone();
+
+        // Print the loading time to the console
+        console.log(`GLTF object loaded in ${elapsedTime.toFixed(2)} seconds.`);
+      });
+    }
+  }
+
+
+  function loadTable(url, scaleX, scaleY, scaleZ) {
+    const tablekey = `${url}`;
+    if (allFurniture[tablekey]) {
+      clock.start();
+      // Calculate the elapsed time
+      const elapsedTime = clock.getElapsedTime();
+      const temp = allFurniture[tablekey].clone();
+      movingObject = temp;
+      otherObjects = true;
+      scene.add(temp);
+      setContent(temp);
+      // Print the loading time to the console
+      console.log(`GLTF object loaded clone in ${elapsedTime.toFixed(2)} seconds.`);
+    } else 
+    {
+      clock.start();
+      //Console.log("Loading Item under Table");
+      loader.load(url, function (gltf) {
+        // Calculate the elapsed time
+        const elapsedTime = clock.getElapsedTime();
+        //Console.log(gltf);
+        var table = gltf.scene;
+        table.traverse(function (child) {
+          child.userData.selectable = true;
+          child.layers.set(0);
+        });
+        table.scale.set(scaleX, scaleY, scaleZ);
+        table.position.z += 10;
+        table.rotateY(-Math.PI / 2);
+        movingObject = table;
+        otherObjects = true;
+        scene.add(table);
+        setContent(table);
+        allFurniture[tablekey] = table.clone();
+
+        // Print the loading time to the console
+        console.log(`GLTF object loaded in ${elapsedTime.toFixed(2)} seconds.`);
+      });
+    }
+  }
+
+  function loadDinningTable(url, scaleX, scaleY, scaleZ) {
+    const tablekey = `${url}`;
+    if (allFurniture[tablekey]) {
+      clock.start();
+      // Calculate the elapsed time
+      const elapsedTime = clock.getElapsedTime();
+      const temp = allFurniture[tablekey].clone();
+      movingObject = temp;
+      otherObjects = true;
+      scene.add(temp);
+      setContent(temp);
+      // Print the loading time to the console
+      console.log(`GLTF object loaded clone in ${elapsedTime.toFixed(2)} seconds.`);
+    } else {
+      clock.start();
+      //Console.log("Loading Item under Dinning Table");
+      loader.load(url, function (gltf) {
+        // Calculate the elapsed time
+        const elapsedTime = clock.getElapsedTime();
+        //Console.log(gltf);
+        var dinningTable = gltf.scene;
+        dinningTable.traverse(function (child) {
+          child.userData.selectable = true;
+          child.layers.set(0);
+        });
+        dinningTable.scale.set(scaleX, scaleY, scaleZ);
+        dinningTable.position.z += 10;
+        dinningTable.rotateY(-Math.PI / 2);
+        movingObject = dinningTable;
+        otherObjects = true;
+        scene.add(dinningTable);
+        setContent(dinningTable);
+        allFurniture[tablekey] = dinningTable.clone();
+
+        // Print the loading time to the console
+        console.log(`GLTF object loaded in ${elapsedTime.toFixed(2)} seconds.`);
+      });
+    }
+  }
+
+  function loadCupboard(url, scaleX, scaleY, scaleZ) {
+    const tablekey = `${url}`;
+    if (allFurniture[tablekey]) {
+      clock.start();
+      // Calculate the elapsed time
+      const elapsedTime = clock.getElapsedTime();
+      const temp = allFurniture[tablekey].clone();
+      movingObject = temp;
+      otherObjects = true;
+      scene.add(temp);
+      setContent(temp);
+      // Print the loading time to the console
+      console.log(`GLTF object loaded clone in ${elapsedTime.toFixed(2)} seconds.`);
+    } else {
+      clock.start();
+      //Console.log("Loading Item under cubboard");
+      loader.load(url, function (gltf) {
+        // Calculate the elapsed time
+        const elapsedTime = clock.getElapsedTime();
+        //Console.log(gltf);
+        var cupboard = gltf.scene;
+        cupboard.traverse(function (child) {
+          child.userData.selectable = true;
+          child.layers.set(0);
+        });
+        cupboard.scale.set(scaleX, scaleY, scaleZ);
+        cupboard.position.z += 10;
+        cupboard.rotateY(-Math.PI / 2);
+        movingObject = cupboard;
+        otherObjects = true;
+        scene.add(cupboard);
+        setContent(cupboard);
+        allFurniture[tablekey] = cupboard.clone();
+
+        // Print the loading time to the console
+        console.log(`GLTF object loaded in ${elapsedTime.toFixed(2)} seconds.`);
+      });
+    }
+  }
+
+  function loadBed(url, scaleX, scaleY, scaleZ) {
+    const tablekey = `${url}`;
+    if (allFurniture[tablekey]) {
+      clock.start();
+      // Calculate the elapsed time
+      const elapsedTime = clock.getElapsedTime();
+      const temp = allFurniture[tablekey].clone();
+      movingObject = temp;
+      otherObjects = true;
+      scene.add(temp);
+      setContent(temp);
+      // Print the loading time to the console
+      console.log(`GLTF object loaded clone in ${elapsedTime.toFixed(2)} seconds.`);
+    } else {
+      clock.start();
+      //Console.log("Loading Item under bed");
+      loader.load(url, function (gltf) {
+        // Calculate the elapsed time
+        const elapsedTime = clock.getElapsedTime();
+        //Console.log(gltf);
+        var bed = gltf.scene;
+        bed.traverse(function (child) {
+          child.userData.selectable = true;
+          child.layers.set(0);
+        });
+        bed.scale.set(scaleX, scaleY, scaleZ);
+        bed.position.z += 10;
+        bed.rotateY(-Math.PI / 2);
+        movingObject = bed;
+        otherObjects = true;
+        scene.add(bed);
+        setContent(bed);
+        allFurniture[tablekey] = bed.clone();
+
+        // Print the loading time to the console
+        console.log(`GLTF object loaded in ${elapsedTime.toFixed(2)} seconds.`);
+      });
+    }
+  }
+
+
+  function loadFloor(url, floorColor) {
+    const tablekey = `${url}`;
+    if (allFurniture[tablekey]) {
+      clock.start();
+      // Calculate the elapsed time
+      const elapsedTime = clock.getElapsedTime();
+      const temp = allFurniture[tablekey].clone();
+      otherObjects = true;
+      scene.add(temp);
+      setContent(temp);
+      // Print the loading time to the console
+      console.log(`GLTF object loaded clone in ${elapsedTime.toFixed(2)} seconds.`);
+    } else {
+      clock.start();
+      //Console.log("Loading Item under floor")
+      loader.load(url, function (gltf) {
+        // Calculate the elapsed time
+        const elapsedTime = clock.getElapsedTime();
+        //Console.log(gltf);
+        floor = gltf.scene;
+        floor.position.z = floorPosition + 4;
+        floor.scale.x = floorPosition + 1;
+        floor.scale.y = 0.3;
+        floor.scale.z = floorPosition - 2;
+        floor.traverse((object) => {
+          if (object.isMesh) {
+            object.material.color.set(floorColor);
+          }
+        });
+        otherObjects = true;
+        scene.add(floor);
+        setContent(floor);
+        allFurniture[tablekey] = floor.clone();
+
+        // Print the loading time to the console
+        console.log(`GLTF object loaded in ${elapsedTime.toFixed(2)} seconds.`);
+      });
+    }
+  }
+
+  function loadRoof(url, roofColor) {
+    const tablekey = `${url}`;
+    if (allFurniture[tablekey]) {
+      clock.start();
+      // Calculate the elapsed time
+      const elapsedTime = clock.getElapsedTime();
+      const temp = allFurniture[tablekey].clone();
+      otherObjects = true;
+      roofColorObj = temp;
+      scene.add(temp);
+      setContent(temp);
+      // Print the loading time to the console
+      console.log(`GLTF object loaded clone in ${elapsedTime.toFixed(2)} seconds.`);
+    } else {
+      clock.start();
+      //Console.log("Loading Item under roof")
+      loader.load(url, function (gltf) {
+        // Calculate the elapsed time
+        const elapsedTime = clock.getElapsedTime();
+        //Console.log(gltf);
+        const roof = gltf.scene;
+        roof.position.z = floorPosition;
+        roof.scale.x = floorPosition + 1;
+        roof.scale.y = 0.3;
+        roof.scale.z = floorPosition - 2;
+        roof.position.y = obj.scale.y / 2;
+        roof.position.z += 4;
+        roof.rotateY(-Math.PI);
+        roof.traverse((object) => {
+          if (object.isMesh) {
+            object.material.color.set(roofColor);
+          }
+        });
+        otherObjects = true;
+        roofColorObj = roof;
+        scene.add(roof);
+        setContent(roof);
+        allFurniture[tablekey] = roof.clone();
+
+        // Print the loading time to the console
+        console.log(`GLTF object loaded in ${elapsedTime.toFixed(2)} seconds.`);
+      });
+    }
+  }
+
+
   const arr = [
 
     {
       name: "Doors",
-      items: [{
-        name: "Double Side Steel Door",
-        clickHandler: () => {
-          //Console.log("Loading Item 1 under Door")
-          loader.load('Models/door/1.gltf', function (gltf) {
-            const windowMesh = gltf.scene;
-            //Console.log("windowmesh:" + windowMesh);
-            windowMesh.scale.x = .2;
-            windowMesh.scale.y = .2;
-            windowMesh.scale.z = .3;
-            windowMesh.position.x = 0;
-            windowMesh.position.y = 0;
-            windowMesh.position.z = .1;
-            const window2 = windowMesh.clone();
-            window2.position.z = -.1;
-            const group = new THREE.Group();
-            group.add(windowMesh);
-            group.add(window2);
-            doorandwindows = group;
-            otherObjects = false;
-            obj.add(group);
-            setContent(doorandwindows);
-
-          });
-
-        },
-      },
-      {
-        name: "Double Side Glass Door",
-        clickHandler: () => {
-          //Console.log("Loading Item 2 under Door")
-          loader.load('Models/door/2.gltf', function (gltf) {
-            const windowMesh = gltf.scene;
-            //Console.log("windowmesh:" + windowMesh);
-            windowMesh.scale.x = .2;
-            windowMesh.scale.y = .2;
-            windowMesh.scale.z = .3;
-            windowMesh.position.x = 0;
-            windowMesh.position.y = 0;
-            windowMesh.position.z = .1;
-            const window2 = windowMesh.clone();
-            window2.position.z = -.1;
-            const group = new THREE.Group();
-            group.add(windowMesh);
-            group.add(window2);
-            doorandwindows = group;
-            otherObjects = false;
-            obj.add(group);
-            setContent(doorandwindows);
-
-          });
-
-        },
-      },
-      {
-        name: "Double Side Wood Door",
-        clickHandler: () => {
-          //Console.log("Loading Item 3 under Door")
-          loader.load('Models/door/3.gltf', function (gltf) {
-            const windowMesh = gltf.scene;
-            //Console.log("windowmesh:" + windowMesh);
-            windowMesh.scale.x = .2;
-            windowMesh.scale.y = .2;
-            windowMesh.scale.z = .3;
-            windowMesh.position.x = 0;
-            windowMesh.position.y = 0;
-            windowMesh.position.z = .1;
-            const window2 = windowMesh.clone();
-            window2.position.z = -.1;
-            const group = new THREE.Group();
-            group.add(windowMesh);
-            group.add(window2);
-            doorandwindows = group;
-            otherObjects = false;
-            obj.add(group);
-            setContent(doorandwindows);
-
-          });
-
-        },
-      },
-      {
-        name: "Painted Wood Door",
-        clickHandler: () => {
-          //Console.log("Loading Item 4 under Door")
-          loader.load('Models/door/4.gltf', function (gltf) {
-            const windowMesh = gltf.scene;
-            //Console.log("windowmesh:" + windowMesh);
-            windowMesh.scale.x = .4;
-            windowMesh.scale.y = .2;
-            windowMesh.scale.z = .3;
-            windowMesh.position.x = 0;
-            windowMesh.position.y = 0;
-            windowMesh.position.z = .1;
-            const window2 = windowMesh.clone();
-            window2.position.z = -.1;
-            const group = new THREE.Group();
-            group.add(windowMesh);
-            group.add(window2);
-            doorandwindows = group;
-            otherObjects = false;
-            obj.add(group);
-            setContent(doorandwindows);
-
-          });
-
-        },
-      },
-      {
-        name: "Wood Door",
-        clickHandler: () => {
-          //Console.log("Loading Item 5 under Door")
-          loader.load('Models/door/5.gltf', function (gltf) {
-            const windowMesh = gltf.scene;
-            //Console.log("windowmesh:" + windowMesh);
-            windowMesh.scale.x = .4;
-            windowMesh.scale.y = .2;
-            windowMesh.scale.z = .3;
-            windowMesh.position.x = 0;
-            windowMesh.position.y = 0;
-            windowMesh.position.z = .1;
-            const window2 = windowMesh.clone();
-            window2.position.z = -.1;
-            const group = new THREE.Group();
-            group.add(windowMesh);
-            group.add(window2);
-            doorandwindows = group;
-            otherObjects = false;
-            obj.add(group);
-            setContent(doorandwindows);
-
-          });
-
-        },
-      },
-      ]
+      items: doorItems
     },
     {
       name: "Windows",
-      items: [{
-        name: "Woodpaper Window",
-        clickHandler: () => {
-          //Console.log("Loading Item 1 under window")
-          loader.load('Models/window/1/Project Name.gltf', function (gltf) {
-            const windowMesh = gltf.scene;
-            //Console.log("windowmesh:" + windowMesh);
-            windowMesh.scale.x = 4;
-            windowMesh.scale.y = 4;
-            windowMesh.scale.z = 5;
-            windowMesh.position.x = 0;
-            windowMesh.position.y = .1;
-            windowMesh.position.z = .1;
-            const window2 = windowMesh.clone();
-            window2.position.z = -.1;
-            const group = new THREE.Group();
-            group.add(windowMesh);
-            group.add(window2);
-            doorandwindows = group;
-            otherObjects = false;
-            obj.add(group);
-            setContent(doorandwindows);
-
-          });
-
-        },
-      },
-      {
-        name: "Woodpaper Grey Window",
-        clickHandler: () => {
-          //Console.log("Loading Item 2 under window")
-          loader.load('Models/window/2/Project Name.gltf', function (gltf) {
-            const windowMesh = gltf.scene;
-            //Console.log("windowmesh:" + windowMesh);
-            windowMesh.scale.x = 4;
-            windowMesh.scale.y = 4;
-            windowMesh.scale.z = 5;
-            windowMesh.position.x = 0;
-            windowMesh.position.y = .1;
-            windowMesh.position.z = .1;
-            const window2 = windowMesh.clone();
-            window2.position.z = -.1;
-            const group = new THREE.Group();
-            group.add(windowMesh);
-            group.add(window2);
-            doorandwindows = group;
-            otherObjects = false;
-            obj.add(group);
-            setContent(doorandwindows);
-
-          });
-
-        },
-      },
-      {
-        name: "Updown Window",
-        clickHandler: () => {
-          //Console.log("Loading Item 3 under window")
-          loader.load('Models/window/3/Project Name/Project Name.gltf', function (gltf) {
-            const windowMesh = gltf.scene;
-            //Console.log("windowmesh:" + windowMesh);
-            windowMesh.scale.x = 0.2;
-            windowMesh.scale.y = 0.2;
-            windowMesh.scale.z = 0.2;
-            windowMesh.position.x = 0;
-            windowMesh.position.y = -.1;
-            windowMesh.position.z = 0;
-            const window2 = windowMesh.clone();
-            window2.position.z = -.2;
-            const group = new THREE.Group();
-            group.add(windowMesh);
-            group.add(window2);
-            doorandwindows = group;
-            otherObjects = false;
-            obj.add(group);
-            setContent(doorandwindows);
-
-          });
-
-        },
-      },
-      {
-        name: "Black Glass Window",
-        clickHandler: () => {
-          //Console.log("Loading Item 4 under window")
-          loader.load('Models/window/4/Project Name.gltf', function (gltf) {
-            const windowMesh = gltf.scene;
-            //Console.log("windowmesh:" + windowMesh);
-            windowMesh.scale.x = 44;
-            windowMesh.scale.y = 44;
-            windowMesh.scale.z = 50;
-            windowMesh.position.x = 0;
-            windowMesh.position.y = .1;
-            windowMesh.position.z = .1;
-            const window2 = windowMesh.clone();
-            window2.position.z = -.1;
-            const group = new THREE.Group();
-            group.add(windowMesh);
-            group.add(window2);
-            obj.add(group);
-            setContent(doorandwindows);
-
-          });
-
-        },
-      },
-      {
-        name: "Brown Glass Window",
-        clickHandler: () => {
-          //Console.log("Loading Item 5 under window")
-          loader.load('Models/window/5/Project Name/Project Name.gltf', function (gltf) {
-            const windowMesh = gltf.scene;
-            //Console.log("windowmesh:" + windowMesh);
-            windowMesh.scale.x = 44;
-            windowMesh.scale.y = 44;
-            windowMesh.scale.z = 50;
-            windowMesh.position.x = 0;
-            windowMesh.position.y = .1;
-            windowMesh.position.z = .1;
-            const window2 = windowMesh.clone();
-            window2.position.z = -.1;
-            const group = new THREE.Group();
-            group.add(windowMesh);
-            group.add(window2);
-            doorandwindows = group;
-            otherObjects = false;
-            obj.add(group);
-            setContent(doorandwindows);
-
-          });
-
-        },
-      },
-      ]
+      items: windowItems
     },
     {
       name: "Chair",
-      items: [{
-        name: "Blue Cushion Chair",
-        clickHandler: () => {
-          //Console.log("Loading Item 1 under Chair")
-          loader.load('Models/Chairs/Project chair1.gltf.glb', function (gltf) {
-            //Console.log(gltf);
-            var chair = gltf.scene;
-            chair.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            chair.scale.x = 50;
-            chair.scale.y = 50;
-            chair.scale.z = 50;
-            chair.position.z += 10;
-            chair.rotateY(-Math.PI / 2);
-            movingObject = chair;
-            otherObjects = true;
-            scene.add(chair);
-            setContent(chair);
-
-          });
-
-        },
-      },
-      {
-        name: "Black Cushion Chair",
-        clickHandler: () => {
-          //Console.log("Loading Item 2 under Chair")
-          loader.load('Models/Chairs/Project chair2.gltf.glb', function (gltf) {
-            //Console.log(gltf);
-            var chair = gltf.scene;
-            chair.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            chair.scale.x = 50;
-            chair.scale.y = 50;
-            chair.scale.z = 50;
-            chair.position.z += 10;
-            chair.rotateY(-Math.PI / 2);
-            movingObject = chair;
-            otherObjects = true;
-            scene.add(chair);
-            setContent(chair);
-
-          });
-
-        },
-      },
-      {
-        name: "Sofa Inherited Chair",
-        clickHandler: () => {
-          //Console.log("Loading Item 3 under Chair")
-          loader.load('Models/Chairs/Project chair 3.gltf.glb', function (gltf) {
-            //Console.log(gltf);
-            var chair = gltf.scene;
-            chair.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            chair.scale.x = 5;
-            chair.scale.y = 5;
-            chair.scale.z = 5;
-            chair.position.z += 10;
-            chair.rotateY(-Math.PI / 2);
-            movingObject = chair;
-            otherObjects = true;
-            scene.add(chair);
-            setContent(chair);
-
-          });
-
-        },
-      },
-      {
-        name: "Relaxing Wood Chair",
-        clickHandler: () => {
-          //Console.log("Loading Item 4 under Chair")
-          loader.load('Models/Chairs/Project chair 4/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var chair = gltf.scene;
-            chair.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            chair.scale.x = 50;
-            chair.scale.y = 40;
-            chair.scale.z = 50;
-            chair.position.z += 10;
-            chair.rotateY(-Math.PI / 2);
-            movingObject = chair;
-            otherObjects = true;
-            scene.add(chair);
-            setContent(chair);
-
-          });
-
-        },
-      },
-      {
-        name: "Couple Chairs",
-        clickHandler: () => {
-          //Console.log("Loading Item 5 under Chair")
-          loader.load('Models/Chairs/Project chair_5/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var chair = gltf.scene;
-            chair.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            chair.scale.x = 500;
-            chair.scale.y = 500;
-            chair.scale.z = 500;
-            chair.position.z += 10;
-            chair.rotateY(-Math.PI / 2);
-            movingObject = chair;
-            otherObjects = true;
-            scene.add(chair);
-            setContent(chair);
-
-          });
-
-        },
-      },
-      ]
+      items: chairItems
     },
     {
       name: "Table",
-      items: [{
-        name: "Dark Brown Wood Table",
-        clickHandler: () => {
-          //Console.log("Loading Item 1 under Table")
-          loader.load('Models/table/table 1/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var table = gltf.scene;
-            table.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            table.scale.x = 8;
-            table.scale.y = 8;
-            table.scale.z = 6;
-            table.position.z += 10;
-            table.rotateY(-Math.PI / 2);
-            movingObject = table;
-            otherObjects = true;
-            scene.add(table);
-            setContent(table);
-
-          });
-
-        },
-      },
-      {
-        name: "Painted Table",
-        clickHandler: () => {
-          //Console.log("Loading Item 2 under Table")
-          loader.load('Models/table/table 2/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var table = gltf.scene;
-            table.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            table.scale.x = .1;
-            table.scale.y = .1;
-            table.scale.z = .1;
-            table.position.z += 10;
-            table.rotateY(-Math.PI / 2);
-            movingObject = table;
-            otherObjects = true;
-            scene.add(table);
-            setContent(table);
-
-          });
-
-        },
-      },
-      {
-        name: "Blue Plan Table",
-        clickHandler: () => {
-          //Console.log("Loading Item 3 under Table")
-          loader.load('Models/table/table 3/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var table = gltf.scene;
-            table.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            table.scale.x = 28;
-            table.scale.y = 28;
-            table.scale.z = 28;
-            table.position.z += 10;
-            table.rotateY(-Math.PI / 2);
-            movingObject = table;
-            otherObjects = true;
-            scene.add(table);
-            setContent(table);
-
-          });
-
-        },
-      },
-      {
-        name: "Dark Blue Plan Table",
-        clickHandler: () => {
-          //Console.log("Loading Item 4 under Table")
-          loader.load('Models/table/table 4/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var table = gltf.scene;
-            table.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            table.scale.x = 28;
-            table.scale.y = 28;
-            table.scale.z = 28;
-            table.position.z += 10;
-            table.rotateY(-Math.PI / 2);
-            movingObject = table;
-            otherObjects = true;
-            scene.add(table);
-            setContent(table);
-
-          });
-
-        },
-      },
-      {
-        name: "Glass Plan Table",
-        clickHandler: () => {
-          //Console.log("Loading Item 5 under Table")
-          loader.load('Models/table/table 5/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var table = gltf.scene;
-            table.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            table.scale.x = 28;
-            table.scale.y = 28;
-            table.scale.z = 28;
-            table.position.z += 10;
-            table.rotateY(-Math.PI / 2);
-            movingObject = table;
-            otherObjects = true;
-            scene.add(table);
-            setContent(table);
-
-          });
-
-        },
-      },
-      ]
+      items: tableItems
     },
     {
       name: "Dinning Table",
-      items: [{
-        name: "Blue Dinning Table With Light",
-        clickHandler: () => {
-          //Console.log("Loading Item 1 under Dinning Table")
-          loader.load('Models/dinning table/1/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var dinningTable = gltf.scene;
-            dinningTable.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            dinningTable.scale.x = 3.5;
-            dinningTable.scale.y = 3.5;
-            dinningTable.scale.z = 3.5;
-            dinningTable.position.z += 10;
-            dinningTable.rotateY(-Math.PI / 2);
-            movingObject = dinningTable;
-            otherObjects = true;
-            scene.add(dinningTable);
-            setContent(dinningTable);
-
-          });
-
-        },
-      },
-      {
-        name: "4 Person Dinning Table",
-        clickHandler: () => {
-          //Console.log("Loading Item 2 under Dinning Table")
-          loader.load('Models/dinning table/2/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var dinningTable = gltf.scene;
-            dinningTable.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            dinningTable.scale.x = 22;
-            dinningTable.scale.y = 22;
-            dinningTable.scale.z = 22;
-            dinningTable.position.z += 10;
-            dinningTable.rotateY(-Math.PI / 2);
-            movingObject = dinningTable;
-            otherObjects = true;
-            scene.add(dinningTable);
-            setContent(dinningTable);
-
-          });
-
-        },
-      },
-      {
-        name: "Dark Blue 4 Person Dinning Table",
-        clickHandler: () => {
-          //Console.log("Loading Item 3 under Dinning Table")
-          loader.load('Models/dinning table/3/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var dinningTable = gltf.scene;
-            dinningTable.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            dinningTable.scale.x = 22;
-            dinningTable.scale.y = 22;
-            dinningTable.scale.z = 22;
-            dinningTable.position.z += 10;
-            dinningTable.rotateY(-Math.PI / 2);
-            movingObject = dinningTable;
-            otherObjects = true;
-            scene.add(dinningTable);
-            setContent(dinningTable);
-
-          });
-
-        },
-      },
-      {
-        name: "Adjustible Dinning Table",
-        clickHandler: () => {
-          //Console.log("Loading Item 4 under Dinning Table")
-          // loader.load('Models/cupboard/4/Project Name (1)/Project Name.gltf',function(gltf){
-          //   //Console.log(gltf);
-          //   var cupboard = gltf.scene;
-          //   cupboard.traverse(function(child){
-          //     child.userData.selectable = true;
-          //     child.layers.set(0);
-          //   });
-          //   cupboard.scale.x =30;
-          //   cupboard.scale.y =30;
-          //   cupboard.scale.z =30;
-          //   cupboard.position.z += 10;
-          //   cupboard.rotateY(-Math.PI/2);
-          //   movingObject = cupboard;
-          //   scene.add(cupboard);
-          //   
-          // });
-
-        },
-      },
-      {
-        name: "4 Person Plan Dinning Table",
-        clickHandler: () => {
-          //Console.log("Loading Item 5 under Dinning Table")
-          loader.load('Models/dinning table/5/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var dinningTable = gltf.scene;
-            dinningTable.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            dinningTable.scale.x = 3.5;
-            dinningTable.scale.y = 3.5;
-            dinningTable.scale.z = 3.5;
-            dinningTable.position.z += 10;
-            dinningTable.rotateY(-Math.PI / 2);
-            movingObject = dinningTable;
-            otherObjects = true;
-            scene.add(dinningTable);
-            setContent(dinningTable);
-
-          });
-
-        },
-      },
-      ]
+      items: dinningTableItems
     },
     {
       name: "Cupboard",
-      items: [{
-        name: "Green Shaded Cupboard",
-        clickHandler: () => {
-          //Console.log("Loading Item 1 under cubboard")
-          loader.load('Models/cupboard/1/Project Name/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var cupboard = gltf.scene;
-            cupboard.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            cupboard.scale.x = 25;
-            cupboard.scale.y = 25;
-            cupboard.scale.z = 25;
-            cupboard.position.z += 10;
-            cupboard.rotateY(-Math.PI / 2);
-            movingObject = cupboard;
-            otherObjects = true;
-            scene.add(cupboard);
-            setContent(cupboard);
-
-          });
-
-        },
-      },
-      {
-        name: "Green Shaded Plan Cupboard",
-        clickHandler: () => {
-          //Console.log("Loading Item 2 under cubboard")
-          loader.load('Models/cupboard/2/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var cupboard = gltf.scene;
-            cupboard.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            cupboard.scale.x = 900;
-            cupboard.scale.y = 900;
-            cupboard.scale.z = 900;
-            cupboard.position.z += 10;
-            cupboard.rotateY(-Math.PI / 2);
-            movingObject = cupboard;
-            otherObjects = true;
-            scene.add(cupboard);
-            setContent(cupboard);
-
-          });
-
-        },
-      },
-      {
-        name: "Parrot Shaded Cupboard",
-        clickHandler: () => {
-          //Console.log("Loading Item 3 under cubboard")
-          loader.load('Models/cupboard/3/Project Name/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var cupboard = gltf.scene;
-            cupboard.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            cupboard.scale.x = 30;
-            cupboard.scale.y = 30;
-            cupboard.scale.z = 30;
-            cupboard.position.z += 10;
-            cupboard.rotateY(-Math.PI / 2);
-            movingObject = cupboard;
-            otherObjects = true;
-            scene.add(cupboard);
-            setContent(cupboard);
-
-          });
-
-        },
-      },
-      {
-        name: "Black Shaded Cupboard",
-        clickHandler: () => {
-          //Console.log("Loading Item 4 under cubboard")
-          loader.load('Models/cupboard/4/Project Name (1)/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var cupboard = gltf.scene;
-            cupboard.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            cupboard.scale.x = 30;
-            cupboard.scale.y = 30;
-            cupboard.scale.z = 30;
-            cupboard.position.z += 10;
-            cupboard.rotateY(-Math.PI / 2);
-            movingObject = cupboard;
-            otherObjects = true;
-            scene.add(cupboard);
-            setContent(cupboard);
-
-          });
-
-        },
-      },
-      {
-        name: "Dark Blue Shaded Cupboard",
-        clickHandler: () => {
-          //Console.log("Loading Item 5 under cubboard")
-          loader.load('Models/cupboard/5/Project Name/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var cupboard = gltf.scene;
-            cupboard.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            cupboard.scale.x = 30;
-            cupboard.scale.y = 30;
-            cupboard.scale.z = 30;
-            cupboard.position.z += 10;
-            cupboard.rotateY(-Math.PI / 2);
-            movingObject = cupboard;
-            otherObjects = true;
-            scene.add(cupboard);
-            setContent(cupboard);
-
-          });
-
-        },
-      },
-      ]
+      items: cupboardItems
     },
     {
       name: "bed",
-      items: [{
-        name: "Couple Small Bed",
-        clickHandler: () => {
-          //Console.log("Loading Item 1 under bed")
-          loader.load('Models/bed/1/Project Name/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var bed = gltf.scene;
-            bed.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            bed.scale.x = 900;
-            bed.scale.y = 900;
-            bed.scale.z = 900;
-            bed.position.z += 10;
-            bed.rotateY(-Math.PI / 2);
-            movingObject = bed;
-            otherObjects = true;
-            scene.add(bed);
-            setContent(bed);
-
-          });
-
-        },
-      },
-      {
-        name: "Couple Comfort Bed",
-        clickHandler: () => {
-          //Console.log("Loading Item 2 under bed")
-          loader.load('Models/bed/2/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var bed = gltf.scene;
-            bed.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            bed.scale.x = 900;
-            bed.scale.y = 900;
-            bed.scale.z = 900;
-            bed.position.z += 10;
-            bed.rotateY(-Math.PI / 2);
-            movingObject = bed;
-            otherObjects = true;
-            scene.add(bed);
-            setContent(bed);
-
-
-          });
-
-        },
-      },
-      {
-        name: "Small Wided Bed",
-        clickHandler: () => {
-          //Console.log("Loading Item 3 under bed")
-          loader.load('Models/bed/3/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var bed = gltf.scene;
-            bed.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            bed.scale.x = 900;
-            bed.scale.y = 900;
-            bed.scale.z = 900;
-            bed.position.z += 10;
-            bed.rotateY(-Math.PI / 2);
-            movingObject = bed;
-            otherObjects = true;
-            scene.add(bed);
-            setContent(bed);
-
-          });
-
-        },
-      },
-      {
-        name: "Brown Long Bed",
-        clickHandler: () => {
-          //Console.log("Loading Item 4 under bed")
-          loader.load('Models/bed/4/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var bed = gltf.scene;
-            bed.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            bed.scale.x = 900;
-            bed.scale.y = 900;
-            bed.scale.z = 900;
-            bed.position.z += 10;
-            //bed.rotateY(-Math.PI/2);
-            movingObject = bed;
-            otherObjects = true;
-            scene.add(bed);
-            setContent(bed);
-
-          });
-
-        },
-      },
-      {
-        name: "Long White Bed",
-        clickHandler: () => {
-          //Console.log("Loading Item 5 under bed")
-          loader.load('Models/bed/5/Project Name/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            var bed = gltf.scene;
-            bed.traverse(function (child) {
-              child.userData.selectable = true;
-              child.layers.set(0);
-            });
-            bed.scale.x = 700 * 5;
-            bed.scale.y = 700 * 5;
-            bed.scale.z = 650 * 5;
-            bed.position.z += 10;
-            //bed.rotateY(-Math.PI/2);
-            movingObject = bed;
-            otherObjects = true;
-            scene.add(bed);
-            setContent(bed);
-
-          });
-
-        },
-      },
-      ]
+      items: bedItems
     },
     {
       name: "floor",
-      items: [{
-        name: "Sky Blue Floor",
-        clickHandler: () => { },
-      },
-      {
-        name: "Black Sheet Patern Floor",
-        clickHandler: () => {
-          //Console.log("Loading Item 2 under floor")
-
-          loader.load('Models/floor/2/Project Name/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            floor = gltf.scene;
-            floor.position.z = floorPosition + 4;
-            floor.scale.x = floorPosition + 1;
-            floor.scale.y = .3;
-            floor.scale.z = floorPosition - 2;
-            floor.traverse((object) => {
-              if (object.isMesh) {
-                object.material.color.set(0x9EDED8);
-              }
-            });
-            otherObjects = true;
-            scene.add(floor);
-            setContent(floor);
-
-          });
-
-        },
-      },
-      {
-        name: "Brown Tiled Floor",
-        clickHandler: () => {
-          //Console.log("Loading Item 3 under floor")
-          loader.load('Models/floor/3/Project Name/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            floor = gltf.scene;
-            floor.position.z = floorPosition + 4;
-            floor.scale.x = floorPosition + 1;
-            floor.scale.y = .3;
-            floor.scale.z = floorPosition - 2;
-            floor.traverse((object) => {
-              if (object.isMesh) {
-                object.material.color.set(0x9EDED8);
-              }
-            });
-            otherObjects = true;
-            scene.add(floor);
-            setContent(floor);
-
-          });
-
-        },
-      },
-      {
-        name: "Plan Floor",
-        clickHandler: () => {
-          //Console.log("Loading Item 4 under bed")
-          loader.load('Models/floor/4/Project Name/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            floor = gltf.scene;
-            floor.position.z = floorPosition + 4;
-            floor.scale.x = floorPosition + 1;
-            floor.scale.y = .3;
-            floor.scale.z = floorPosition - 2;
-            floor.traverse((object) => {
-              if (object.isMesh) {
-                object.material.color.set(0x9EDED8);
-              }
-            });
-            otherObjects = true;
-            scene.add(floor);
-            setContent(floor);
-
-          });
-
-        },
-      },
-      {
-        name: "Blue Wood Patern Floor",
-        clickHandler: () => {
-          //Console.log("Loading Item 5 under bed")
-          loader.load('Models/floor/5/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            floor = gltf.scene;
-            floor.position.z = floorPosition + 4;
-            floor.scale.x = floorPosition + 1;
-            floor.scale.y = .3;
-            floor.scale.z = floorPosition - 2;
-            floor.traverse((object) => {
-              if (object.isMesh) {
-                object.material.color.set(0x9EDED8);
-              }
-            });
-            otherObjects = true;
-            scene.add(floor);
-            setContent(floor);
-
-          });
-
-        },
-      },
-      ]
+      items: floorItems
     },
     {
       name: "Roof",
-      items: [{
-        name: "Plan Pattern Roof",
-        clickHandler: () => {
-          //Console.log("Loading Item 1 under roof")
-          loader.load('Models/roof1/Project Name/Project Name.gltf', function (gltf) {
-            //Console.log(gltf);
-            const roof = gltf.scene;
-            roof.position.z = floorPosition;
-            roof.scale.x = floorPosition + 1;
-            roof.scale.y = .3;
-            roof.scale.z = floorPosition - 2;
-            roof.position.y = obj.scale.y / 2;
-            roof.position.z += 4;
-            roof.rotateY(-Math.PI);
-            roof.traverse((object) => {
-              if (object.isMesh) {
-                object.material.color.set(0x6d998f);
-              }
-            });
-            otherObjects = true;
-            roofColorObj = roof;
-            scene.add(roof);
-            setContent(roof);
-
-          });
-        },
-      },
-
-      ]
+      items: roofItems
     },
-
-
   ]
 
-
   useEffect(() => {
+    if (!callOnce) return;
 
+    callOnce = false;
 
     document.addEventListener("DOMContentLoaded", function () {
       const sidebar = document.querySelector(".sidebar");
@@ -1248,9 +797,13 @@ function CustomDesign() {
     controls.screenSpacePanning = true;
     controls.addEventListener('change', function () { });
 
+
+
     loader = new GLTFLoader();
     //const loader = useLoader(GLTFLoader, "src/Models/Walls/scene.glb" );
     loader.load('Models/Walls/Scene.glb', function (gltf) {
+      // Calculate the elapsed time
+      const elapsedTime = clock.getElapsedTime();
       //Console.log(gltf);
       obj = gltf.scene;
       // assigning dummy values
@@ -1299,19 +852,26 @@ function CustomDesign() {
       scene.add(rightwall);
       scene.add(lefttwall);
       scene.add(opositewall);
+      // Print the loading time to the console
+      console.log(`GLTF object loaded in ${elapsedTime.toFixed(4)} seconds.`);
     });
 
     // add mouse listener here
     function onKeyDown(event) {
       if (event.keyCode === 27) {
         for (let i = 0; i < deleteObjects.length; i++) {
-          traverseMaterials(deleteObjects[i], (material) => {
-            material.wireframe = false;
-          });
+          // traverseMaterials(deleteObjects[i], (material) => {
+          //   material.wireframe = false;
+          // });
+          deleteObjects[i].traverse((node) => {
+            if (node.isMesh) {
+              node.material = node.userData.material;
+            }
+          })
         }
         deleteObjects = [];
       }
-        
+
       if (otherObjects === true) {
         if (movingObject) {
           if (event.keyCode === 65) {
@@ -1529,8 +1089,8 @@ function CustomDesign() {
     function onObjectClick(event) {
       // Calculate mouse position in normalized device coordinates
       const mouse = new THREE.Vector2();
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+      mouse.x = (event.clientX / (sizes.width)) * 2 - 1;
+      mouse.y = -(event.clientY / (sizes.height)) * 2 + 1;
 
       // Set the raycaster's position and direction
       raycaster.setFromCamera(mouse, camera);
@@ -1541,12 +1101,20 @@ function CustomDesign() {
       // Check if any objects were intersected
       if (intersects.length > 0) {
         for (let i = 0; i < intersects.length; i++) {
-          const clickedObject = intersects[i].object;
+          const clickedObject = intersects[0].object;
 
           const completeObject = clickedObject.parent;
-          traverseMaterials(completeObject, (material) => {
-            material.wireframe = true;
-          });
+          // traverseMaterials(clickedObject, (material) => {
+          //   material.wireframe = true;
+          // });
+          completeObject.traverse((node) => {
+            if (node.isMesh) {
+              if (!node.userData.material)
+                node.userData.material = node.material.clone();
+              node.material = highlightedMaterial;
+            }
+          })
+          movingObject = completeObject;
           //Console.log(completeObject);
           deleteObjects.push(completeObject);
         }
@@ -1583,10 +1151,9 @@ function CustomDesign() {
       renderer.setSize(sizes.width / 1.55, sizes.height / 1.55);
     }
 
-
     //stats setup
-    // stats = new Stats();
-    // document.body.appendChild(stats.dom);
+    stats = new Stats();
+    document.body.appendChild(stats.dom);
 
     animate();
 
@@ -1817,18 +1384,12 @@ function CustomDesign() {
     }
   }, []);
 
-
-
-
-
   function animate() {
     requestAnimationFrame(animate);
     controls.update();
-    // stats.update();
+    stats.update();
     renderer.render(scene, camera);
   }
-
-
 
   return (
     <Container fluid>

@@ -136,7 +136,7 @@ const Navbar = () => {
               <NavLink className="nav-link" to="/" >
                 <i 
                 className="fas fa-tachometer-alt">
-                </i>Home
+                </i>CustomDesign
               </NavLink>
             </li>
 
@@ -149,10 +149,10 @@ const Navbar = () => {
             </li>
 
             <li className="nav-item">
-              <NavLink className="nav-link" to="/CustomDesign" >
+              <NavLink className="nav-link" to="/home" >
                 <i 
                 className="far fa-clone">
-                </i>CustomDesign
+                </i>Home
               </NavLink>
             </li>
 

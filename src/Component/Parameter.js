@@ -17,7 +17,7 @@ function Parameter() {
       localStorage.setItem('shape', shape);
       localStorage.setItem('width', parsedWidth);
       localStorage.setItem('height', parsedHeight);
-      window.location.href = "/CustomDesign";
+      window.location.href = "/";
     }
   }
 

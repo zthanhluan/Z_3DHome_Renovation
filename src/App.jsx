@@ -45,7 +45,7 @@ const App = () => {
    
     <main>
       <Routes>
-        <Route path="/"  Component={Home}/>
+        <Route path="/home"  Component={Home}/>
           
         <Route path="/portfolio"  Component={Portfolio}/>
         <Route path="/Faq"  Component={Faq}/>
@@ -59,7 +59,7 @@ const App = () => {
         <Route path="/signupform"  Component={SignupForm}/>
         <Route path="/loginsignuptabs"  Component={LoginSignupTabs}/>
 
-        <Route path="/CustomDesign"  Component={CustomDesign}/>
+        <Route path="/"  Component={CustomDesign}/>
         <Route path="/options_design"  Component={options_design}/>
         <Route path="/footer"  Component={Footer}/>
         <Route path="/forgotpassword"  Component={ForgotPassword}/>
